@@ -50,7 +50,10 @@ def predict_model(
     if os.path.isfile(input_path):
         if input_path.endswith(".txt"):
             with open(input_path, "r", encoding="utf-8") as f:
-                image_paths = [line.strip() for line in f if line.strip()]
+                for line in f:
+                    line = line.strip()
+                    if line:
+                        image_paths.append(line.split(",")[0].strip())
         else:
             image_paths = [input_path]
     elif os.path.isdir(input_path):

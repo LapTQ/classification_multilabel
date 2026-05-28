@@ -52,7 +52,7 @@ def train_model(config_path: str) -> None:
     dm = MultiLabelDataModule(
         train_files=cfg["train_data"],
         val_files=cfg["val_data"],
-        num_classes=num_classes,
+        classes=cfg["classes"],
         batch_size=cfg["batch_size"],
         num_workers=cfg["num_workers"] if "num_workers" in cfg else 4,
     )

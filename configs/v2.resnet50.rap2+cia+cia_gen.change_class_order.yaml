@@ -1,23 +1,23 @@
 # Cấu hình huấn luyện EfficientNetV2 cho Multi-label Classification
 
 # Thư mục chứa kết quả train (weights, logs, visualizations)
-output_dir: "/home/laptq/laptq-fs26-shoplifting-detection/runs/classification_multilabel/v1.efficientnetv2s.rap2+cia+cia_gen"
+output_dir: "/home/laptq/laptq-fs26-shoplifting-detection/runs/classification_multilabel/v2.resnet50.rap2+cia+cia_gen.change_class_order"
 
 resume_path: null # Path tới thư mục run để resume (nếu có)
 
 # Danh sách các class
 classes:
   - "backpack"      # 0
-  - "basket"        # 1
-  - "box"           # 2
-  - "cart"          # 3
-  - "handbag"       # 4
-  - "handtrunk"     # 5
-  - "other"         # 6
-  - "paperbag"      # 7
-  - "plasticbag"    # 8
-  - "product"       # 9
-  - "shoulderbag"    # 10
+  - "shoulderbag"   # 1
+  - "handbag"       # 2
+  - "box"           # 3
+  - "plasticbag"    # 4
+  - "paperbag"      # 5
+  - "handtrunk"     # 6
+  - "other"         # 7
+  - "basket"        # 8
+  - "cart"          # 9
+  - "product"       # 10
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
@@ -32,13 +32,13 @@ val_data:
   - "/home/laptq/laptq-fs26-shoplifting-detection/outputs/train_data/classify_rgb_multilabel/Satudora_test.txt"
 
 # Tham số Training
-epochs: 30
-batch_size: 64
+epochs: 50
+batch_size: 128
 lr: 1e-4
 weight_decay: 1e-5
-patience: 10
+patience: 20
 num_workers: 8
 precision: 32
 
 accelerator: "gpu"
-devices: [3, 4, 5] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)
+devices: [1, 2] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)

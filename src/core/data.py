@@ -14,19 +14,22 @@ class MultiLabelDataset(Dataset):
     def __init__(
         self,
         data_files: Union[str, List[str]],
-        num_classes: int,
+        classes: List[str],
         transform: Optional[T.Compose] = None,
     ) -> None:
         """
         Args:
             data_files: Path or list of paths to data txt files.
-            num_classes: Number of target classes.
+            classes: List of target class names.
             transform: torchvision transforms.
         """
         self.image_paths: List[str] = []
         self.targets: List[np.ndarray] = []
         self.transform: Optional[T.Compose] = transform
-        self.num_classes: int = num_classes
+        self.classes: List[str] = classes
+        self.num_classes: int = len(classes)
+
+        class_to_idx = {name.strip().lower(): idx for idx, name in enumerate(classes)}
 
         if isinstance(data_files, str):
             data_files = [data_files]
@@ -47,16 +50,18 @@ class MultiLabelDataset(Dataset):
                         # but keep it informative
                         continue
 
-                    # Parse labels
+                    # Parse labels as class names
                     labels = []
                     for p in parts[1:]:
-                        if p.strip():
-                            labels.append(int(p))
+                        cls_name = p.strip().lower()
+                        if cls_name:
+                            if cls_name in class_to_idx:
+                                labels.append(class_to_idx[cls_name])
 
                     # Convert to multi-hot target
-                    target = np.zeros(num_classes, dtype=np.float32)
+                    target = np.zeros(self.num_classes, dtype=np.float32)
                     for label in labels:
-                        if 0 <= label < num_classes:
+                        if 0 <= label < self.num_classes:
                             target[label] = 1.0
 
                     self.image_paths.append(img_path)
@@ -70,7 +75,7 @@ class MultiLabelDataset(Dataset):
         self.targets = [self.targets[i] for i in idxs]
 
         print(
-            f"Dataset initialized with {len(self.image_paths)} images across {num_classes} classes."
+            f"Dataset initialized with {len(self.image_paths)} images across {self.num_classes} classes."
         )
 
     def __len__(self) -> int:
@@ -92,20 +97,21 @@ class MultiLabelDataModule(pl.LightningDataModule):
         self,
         train_files: Union[str, List[str]],
         val_files: Union[str, List[str]],
-        num_classes: int,
+        classes: List[str],
         batch_size: int = 32,
         num_workers: int = 4,
     ) -> None:
         super().__init__()
         self.train_files: Union[str, List[str]] = train_files
         self.val_files: Union[str, List[str]] = val_files
-        self.num_classes: int = num_classes
+        self.classes: List[str] = classes
+        self.num_classes: int = len(classes)
         self.batch_size: int = batch_size
         self.num_workers: int = num_workers
 
         self.train_transform = T.Compose(
             [
-                SquarePad(),
+                # SquarePad(),
                 T.RandomHorizontalFlip(),
                 T.RandAugment(
                     num_ops=4, magnitude=9, interpolation=T.InterpolationMode.BILINEAR
@@ -115,8 +121,8 @@ class MultiLabelDataModule(pl.LightningDataModule):
                 # GaussNoise(p=0.1),
                 T.ColorJitter(hue=0.15),
                 T.RandomGrayscale(p=0.1),
-                # T.Resize((224, 224)),
-                T.RandomResizedCrop((224, 224), scale=(0.7, 1.0)),
+                T.Resize((256, 192)),
+                # T.RandomResizedCrop((224, 224), scale=(0.7, 1.0)),
                 T.ToTensor(),
                 T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             ]
@@ -124,8 +130,8 @@ class MultiLabelDataModule(pl.LightningDataModule):
 
         self.val_transform = T.Compose(
             [
-                SquarePad(),
-                T.Resize((224, 224)),
+                # SquarePad(),
+                T.Resize((256, 192)),
                 T.ToTensor(),
                 T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
             ]
@@ -139,18 +145,18 @@ class MultiLabelDataModule(pl.LightningDataModule):
     def setup(self, stage: Optional[str] = None) -> None:
         if stage == "fit" or stage is None:
             self.train_ds = MultiLabelDataset(
-                self.train_files, self.num_classes, self.train_transform
+                self.train_files, self.classes, self.train_transform
             )
             self.val_ds = MultiLabelDataset(
-                self.val_files, self.num_classes, self.val_transform
+                self.val_files, self.classes, self.val_transform
             )
         if stage == "test":
             self.test_ds = MultiLabelDataset(
-                self.val_files, self.num_classes, self.val_transform
+                self.val_files, self.classes, self.val_transform
             )
         if stage == "predict":
             self.predict_ds = MultiLabelDataset(
-                self.val_files, self.num_classes, self.val_transform
+                self.val_files, self.classes, self.val_transform
             )
 
     def train_dataloader(self) -> DataLoader:

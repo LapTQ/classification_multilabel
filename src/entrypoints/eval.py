@@ -5,7 +5,7 @@ from src.core.model import MultiLabelClassifyModel
 from src.core.data import MultiLabelDataModule
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CKPT_PATH = "runs/classification/multilabel/v1/weights/best-epoch=00-val_f1_macro=0.000.ckpt"
+CKPT_PATH = "/home/laptq/laptq-fs26-shoplifting-detection/runs/classification_multilabel/v1.efficientnetv2s.rap2+cia+cia_gen/weights/best-epoch=12-val_f1_macro=0.536.ckpt"
 # =====================================================
 
 
@@ -22,13 +22,12 @@ def evaluate_model(ckpt_path: str) -> None:
 
     accelerator = cfg["accelerator"] if "accelerator" in cfg else "gpu"
     devices = cfg["devices"] if "devices" in cfg else "auto"
-    num_classes = len(cfg["classes"])
 
     # 2. Data Module
     dm = MultiLabelDataModule(
         train_files=[],
         val_files=cfg["val_data"],
-        num_classes=num_classes,
+        classes=cfg["classes"],
         batch_size=cfg["batch_size"],
         num_workers=cfg["num_workers"] if "num_workers" in cfg else 4,
     )
