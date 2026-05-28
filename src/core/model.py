@@ -24,12 +24,16 @@ class MultiLabelClassifyModel(pl.LightningModule):
         super().__init__()
         self.save_hyperparameters()
 
-        # Load pretrained efficientnet v2 s
-        self.model = models.efficientnet_v2_s(
-            weights=models.EfficientNet_V2_S_Weights.DEFAULT
+        # self.model = models.efficientnet_v2_s(
+        #     weights=models.EfficientNet_V2_S_Weights.DEFAULT
+        # )
+        # in_features = self.model.classifier[1].in_features
+        # self.model.classifier[1] = nn.Linear(in_features, num_classes)
+        self.model = models.resnet50(
+            weights=models.ResNet50_Weights.DEFAULT
         )
-        in_features = self.model.classifier[1].in_features
-        self.model.classifier[1] = nn.Linear(in_features, num_classes)
+        in_features = self.model.fc.in_features
+        self.model.fc = nn.Linear(in_features, num_classes)
 
         # Loss function for multi-label classification
         self.loss_fn = nn.BCEWithLogitsLoss()
