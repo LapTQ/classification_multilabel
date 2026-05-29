@@ -13,7 +13,7 @@ from src.core.data import MultiLabelDataModule
 from src.core.utils import get_run_dir, visualize_batch
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CONFIG_PATH = "configs/v1.efficientnetv2s.rap2+cia+cia_gen.yaml"  # Path tới file cấu hình
+CONFIG_PATH = "configs/v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order.yaml"  # Path tới file cấu hình
 # =====================================================
 
 

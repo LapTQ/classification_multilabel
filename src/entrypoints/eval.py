@@ -5,7 +5,7 @@ from src.core.model import MultiLabelClassifyModel
 from src.core.data import MultiLabelDataModule
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CKPT_PATH = "/home/laptq/laptq-fs26-shoplifting-detection/runs/classification_multilabel/v1.efficientnetv2s.rap2+cia+cia_gen/weights/best-epoch=12-val_f1_macro=0.536.ckpt"
+CKPT_PATH = "/home/laptq/classification_multilabel/outputs/train/v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order/weights/best-epoch=19-val_f1_macro=0.574.ckpt"
 # =====================================================
 
 

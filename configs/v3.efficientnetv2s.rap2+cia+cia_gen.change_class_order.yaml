@@ -1,7 +1,7 @@
 # Cấu hình huấn luyện EfficientNetV2 cho Multi-label Classification
 
 # Thư mục chứa kết quả train (weights, logs, visualizations)
-output_dir: "/home/laptq/classification_multilabel/outputs/train/v2.resnet50.rap2+cia+cia_gen.change_class_order"
+output_dir: "/home/laptq/classification_multilabel/outputs/train//v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order"
 
 resume_path: null # Path tới thư mục run để resume (nếu có)
 
@@ -41,4 +41,4 @@ num_workers: 8
 precision: 32
 
 accelerator: "gpu"
-devices: [1, 2] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)
+devices: [0, 2] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)

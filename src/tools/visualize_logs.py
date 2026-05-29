@@ -122,6 +122,6 @@ def visualize_training(run_dir: str) -> None:
 
 if __name__ == "__main__":
     # Dán đường dẫn thư mục run của bạn vào đây
-    RUN_DIR: str = "/home/laptq/laptq-fs26-shoplifting-detection/runs/classification_multilabel/v1.efficientnetv2s.rap2+cia+cia_gen"
+    RUN_DIR: str = "/home/laptq/classification_multilabel/outputs/train/v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order"
 
     visualize_training(RUN_DIR)

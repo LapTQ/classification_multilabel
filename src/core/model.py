@@ -24,16 +24,16 @@ class MultiLabelClassifyModel(pl.LightningModule):
         super().__init__()
         self.save_hyperparameters()
 
-        # self.model = models.efficientnet_v2_s(
-        #     weights=models.EfficientNet_V2_S_Weights.DEFAULT
-        # )
-        # in_features = self.model.classifier[1].in_features
-        # self.model.classifier[1] = nn.Linear(in_features, num_classes)
-        self.model = models.resnet50(
-            weights=models.ResNet50_Weights.DEFAULT
+        self.model = models.efficientnet_v2_s(
+            weights=models.EfficientNet_V2_S_Weights.DEFAULT
         )
-        in_features = self.model.fc.in_features
-        self.model.fc = nn.Linear(in_features, num_classes)
+        in_features = self.model.classifier[1].in_features
+        self.model.classifier[1] = nn.Linear(in_features, num_classes)
+        # self.model = models.resnet50(
+        #     weights=models.ResNet50_Weights.DEFAULT
+        # )
+        # in_features = self.model.fc.in_features
+        # self.model.fc = nn.Linear(in_features, num_classes)
 
         # Loss function for multi-label classification
         self.loss_fn = nn.BCEWithLogitsLoss()
@@ -150,6 +150,12 @@ class MultiLabelClassifyModel(pl.LightningModule):
             if self.class_names
             else [f"Class_{i}" for i in range(len(f1_vals))]
         )
+
+        # print metrics
+        print("\n=== Test Metrics ===")
+        for i, cls in enumerate(classes):
+            print(f"{cls:15s}: F1={f1_vals[i]:.3f}, Precision={prec_vals[i]:.3f}, Recall={rec_vals[i]:.3f}")
+        print(f"Macro F1: {self.test_f1_macro.compute().item():.3f}")
 
         # Plot bar chart of per-class metrics
         plt.figure(figsize=(14, 8))
