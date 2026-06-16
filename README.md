@@ -1,97 +1,95 @@
 # Multi-Label Classification
 
-## 1. Cấu trúc thư mục
+## 1. File Structure
 
 ```text
 classification_multilabel/
 ├── configs/
-│   └── v1.multilabel.yaml       # File config
+│   └── v1.multilabel.yaml       
 ├── src/
 │   ├── __init__.py
 │   ├── core/
 │   │   ├── __init__.py
-│   │   ├── augmentations.py     # Các phép tăng cường ảnh (Albumentations, torchvision)
-│   │   ├── data.py              # Xử lý dataset đa nhãn (MultiLabelDataset) & DataModule
-│   │   ├── model.py             # Kiến trúc model, loss function (BCEWithLogitsLoss) & metrics
-│   │   └── utils.py             # Các hàm bổ trợ (tạo thư mục chạy, trực quan hóa lô dữ liệu)
+│   │   ├── augmentations.py     
+│   │   ├── data.py              
+│   │   ├── model.py             
+│   │   └── utils.py             
 │   └── entrypoints/
-│       ├── train.py             # Script bắt đầu huấn luyện
-│       ├── eval.py              # Script đánh giá checkpoint trên tập val/test
-│       └── predict.py           # Script chạy suy luận (predict) trên ảnh/thư mục/file txt
+│       ├── train.py             
+│       ├── eval.py             
+│       └── predict.py           
 ```
 
-## 2. Định dạng dữ liệu (Data Format)
+## 2. Data Format
 
-Dữ liệu đầu vào là các file text `.txt`. Mỗi dòng tương ứng với một ảnh và danh sách các nhãn phân tách bằng dấu phẩy:
+Input data consists of text files (`.txt`). Each line corresponds to an image and its associated labels separated by commas:
 ```text
-<đường_dẫn_ảnh_tuyệt_đối>,<class_id_1>,<class_id_2>,...
+<absolute_image_path>,<class_name_1>,<class_name_2>,...
 ```
-*Ví dụ:*
+*Example:*
 ```text
 path/to/image/1.jpg,paperbag,shoulderbag
 path/to/image/2.jpg,cart,handtrunk,plasticbag
 ```
 
-## 3. Hướng dẫn sử dụng
+## 3. Usage
 
-Trước khi chạy các script, hãy kích hoạt môi trường ảo:
+Install dependencies
 ```bash
-source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-### Huấn luyện (Train)
+### Training
 
-Chỉnh sửa cấu hình huấn luyện trong `configs/v1.multilabel.yaml`, sau đó chạy:
+Edit the training configurations in `configs/v2.resnet50.rap2+cia+cia_gen.change_class_order.yaml`, then run:
 ```bash
 python3 -m src.entrypoints.train
 ```
 
-### Đánh giá (Evaluate)
+Notes:
+* **Backbone selection**: Modify in `src/core/model.py`:
+    ```python
+    # EfficientNet V2 S
+    self.model = models.efficientnet_v2_s(
+        weights=models.EfficientNet_V2_S_Weights.DEFAULT
+    )
+    in_features = self.model.classifier[1].in_features
+    self.model.classifier[1] = nn.Linear(in_features, num_classes)
 
-Chỉnh sửa `CKPT_PATH` trong file `src/entrypoints/eval.py` trỏ tới checkpoint, sau đó chạy:
+    # Or ResNet50
+    self.model = models.resnet50(
+        weights=models.ResNet50_Weights.DEFAULT
+    )
+    in_features = self.model.fc.in_features
+    self.model.fc = nn.Linear(in_features, num_classes)
+    ```
+* **Preprocess transform customization**: Modify `self.train_transform` and `self.val_transform` in `src/core/data.py`.
+
+### Evaluation
+
+Edit `CKPT_PATH` in `src/entrypoints/eval.py` to point to your checkpoint, then run:
 ```bash
 python3 -m src.entrypoints.eval
 ```
 
-### Dự đoán (Predict)
+### Prediction
 
-Chỉnh sửa cấu hình trực tiếp ở đầu file `src/entrypoints/predict.py`:
-*   `CKPT_PATH`: Đường dẫn tới checkpoint `.ckpt`.
-*   `INPUT_PATH`: Có thể là 1 file ảnh, 1 thư mục chứa các ảnh hoặc 1 file `.txt` chứa danh sách đường dẫn ảnh.
-*   `OUTPUT_PATH`: Tên file đầu ra (mặc định là `predictions.txt`).
-*   `THRESHOLD`: Ngưỡng xác suất để nhận diện nhãn hoạt động (mặc định là `0.5`).
+Configure settings directly at the beginning of `src/entrypoints/predict.py`:
+*   `CKPT_PATH`: Path to the `.ckpt` checkpoint.
+*   `INPUT_PATH`: Can be a single image file, a directory containing images, or a `.txt` file containing a list of image paths.
+*   `OUTPUT_PATH`: Name of the output file (default is `predictions.txt`).
+*   `THRESHOLD`: Probability threshold for active labels (default is `0.5`).
 
-Chạy lệnh suy luận:
+Run the inference command:
 ```bash
 python3 -m src.entrypoints.predict
 ```
 
-Kết quả dự đoán sẽ được lưu ở định dạng:
+Inference results will be saved in the format:
 ```text
-<đường_dẫn_ảnh>\t<nhãn_1>:<xác_suất_1>,<nhãn_2>:<xác_suất_2>,...
-```
-*Lưu ý:* Nếu không có nhãn nào vượt qua ngưỡng xác suất đặt ra, hệ thống sẽ tự động lấy nhãn có xác suất cao nhất làm kết quả fallback.
-
-## 4. Lưu ý
-
-### Thay đổi model
-Chỉnh sửa trong file `src/core/model.py`: 
-```python
-# Mặc định sử dụng EfficientNet V2 S
-self.model = models.efficientnet_v2_s(
-    weights=models.EfficientNet_V2_S_Weights.DEFAULT
-)
-in_features = self.model.classifier[1].in_features
-self.model.classifier[1] = nn.Linear(in_features, num_classes)
-
-# Hoặc chuyển sang sử dụng ResNet50
-# self.model = models.resnet50(
-#     weights=models.ResNet50_Weights.DEFAULT
-# )
-# in_features = self.model.fc.in_features
-# self.model.fc = nn.Linear(in_features, num_classes)
+<image_path>\t<label_1>:<probability_1>,<label_2>:<probability_2>,...
 ```
 
-### Nhất quán tiền xử lý dữ liệu khi Huấn luyện và Dự đoán
-Các phép tiền xử lý khi train và val được định nghĩa ở biến `self.train_transform` và `self.val_transform` trong file `src/core/data.py`. Khi predict cần đảm bảo biến `transform` trong file `src/entrypoints/predict.py` cũng áp dụng các phép tiền xử lý phù hợp.
-
+**Important notes**:
+* If no label exceeds the probability threshold, the model will fallback to selecting the label with the highest probability.
+* Make sure that the `transform` variable in `src/entrypoints/predict.py` applies compatible preprocessing transforms in `src/core/data.py`
