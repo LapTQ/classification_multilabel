@@ -5,12 +5,12 @@ from src.core.model import MultiLabelClassifyModel
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
 CKPT_PATH: str = "outputs/train/v2.resnet50.rap2+cia+cia_gen.change_class_order/weights/best-epoch=34-val_f1_macro=0.533.ckpt"
-OUTPUT_PATH: str = "outputs/convert_onnx/v2.resnet50.rap2+cia+cia_gen.change_class_order.onnx"  # Để trống để tự động lưu cùng thư mục checkpoint
+OUTPUT_PATH: str = "outputs/convert_onnx/v2.resnet50.rap2+cia+cia_gen.change_class_order.onnx"
 DUMMY_INPUT: torch.Tensor = torch.randn(1, 3, 256, 192)
 INPUT_NAMES: List[str] = ["input"]
 OUTPUT_NAMES: List[str] = ["output"]
 DYNAMIC_AXES: Dict[str, Dict[int, str]] = {
-    "input": {0: "batch"},  # cho phép thay đổi batch size động
+    "input": {0: "batch"},
     "output": {0: "batch"},
 }
 # =====================================================
