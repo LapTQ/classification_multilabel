@@ -5,19 +5,25 @@
 ```text
 classification_multilabel/
 ├── configs/
-│   └── v1.multilabel.yaml       
 ├── src/
 │   ├── __init__.py
+│   ├── backbone/
+│   │   ├── efficientnetv2s.py
+│   │   └── resnet50.py
 │   ├── core/
 │   │   ├── __init__.py
 │   │   ├── augmentations.py     
 │   │   ├── data.py              
 │   │   ├── model.py             
 │   │   └── utils.py             
-│   └── entrypoints/
-│       ├── train.py             
-│       ├── eval.py             
-│       └── predict.py           
+│   ├── entrypoints/
+│   │   ├── bootstrap.py
+│   │   ├── train.py             
+│   │   ├── eval.py             
+│   │   └── predict.py
+│   └── tools/
+│       ├── convert_onnx.py
+│       └── visualize_logs.py
 ```
 
 ## 2. Data Format
