@@ -1,8 +1,9 @@
 import os
 from typing import List, Tuple
+
 import matplotlib.pyplot as plt
-import torch
 import numpy as np
+import torch
 
 
 def get_run_dir(run_dir: str) -> str:

@@ -122,6 +122,6 @@ def visualize_training(run_dir: str) -> None:
 
 if __name__ == "__main__":
     # Dán đường dẫn thư mục run của bạn vào đây
-    RUN_DIR: str = "/home/laptq/classification_multilabel/outputs/train/v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order"
+    RUN_DIR: str = "outputs/train/v6.resnet50.pa100k"
 
     visualize_training(RUN_DIR)

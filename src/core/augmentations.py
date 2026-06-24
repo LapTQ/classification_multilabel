@@ -1,8 +1,9 @@
-import torchvision.transforms.functional as F
-from PIL import Image
 from typing import Tuple
+
 import albumentations as A
 import numpy as np
+import torchvision.transforms.functional as F
+from PIL import Image
 
 
 class SquarePad:
@@ -44,12 +45,20 @@ class Downscale(BaseAlbumentationConverter):
         self.transform = A.Compose([A.Downscale(scale_range=scale_range, p=p)])
 
     def __repr__(self) -> str:
-        return self.__class__.__name__ + f"(scale_range={self.transform.transforms[0].scale_range}, p={self.transform.transforms[0].p})"
+        return (
+            self.__class__.__name__
+            + f"(scale_range={self.transform.transforms[0].scale_range}, p={self.transform.transforms[0].p})"
+        )
 
 
 class GaussNoise(BaseAlbumentationConverter):
-    def __init__(self, std_range: Tuple[float, float] = (0.1, 0.1), p: float = 0.5) -> None:
+    def __init__(
+        self, std_range: Tuple[float, float] = (0.1, 0.1), p: float = 0.5
+    ) -> None:
         self.transform = A.Compose([A.GaussNoise(std_range=std_range, p=p)])
 
     def __repr__(self) -> str:
-        return self.__class__.__name__ + f"(std_range={self.transform.transforms[0].std_range}, p={self.transform.transforms[0].p})"
+        return (
+            self.__class__.__name__
+            + f"(std_range={self.transform.transforms[0].std_range}, p={self.transform.transforms[0].p})"
+        )

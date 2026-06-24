@@ -1,13 +1,13 @@
 import os
 import random
 from typing import List, Optional, Tuple, Union
-import torch
-from torch.utils.data import Dataset, DataLoader
-import pytorch_lightning as pl
-from PIL import Image
-import torchvision.transforms as T
+
 import numpy as np
-from src.core.augmentations import SquarePad, ChannelShuffle, Downscale
+import pytorch_lightning as pl
+import torch
+import torchvision.transforms as T
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
 
 
 class MultiLabelDataset(Dataset):
@@ -81,9 +81,9 @@ class MultiLabelDataset(Dataset):
     def __len__(self) -> int:
         return len(self.image_paths)
 
-    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, str]:
-        img_path = self.image_paths[idx]
-        target = self.targets[idx]
+    def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor, str]:
+        img_path = self.image_paths[index]
+        target = self.targets[index]
         img = Image.open(img_path).convert("RGB")
 
         if self.transform:
@@ -98,6 +98,8 @@ class MultiLabelDataModule(pl.LightningDataModule):
         train_files: Union[str, List[str]],
         val_files: Union[str, List[str]],
         classes: List[str],
+        train_transform: Optional[T.Compose] = None,
+        val_transform: Optional[T.Compose] = None,
         batch_size: int = 32,
         num_workers: int = 4,
     ) -> None:
@@ -109,33 +111,8 @@ class MultiLabelDataModule(pl.LightningDataModule):
         self.batch_size: int = batch_size
         self.num_workers: int = num_workers
 
-        self.train_transform = T.Compose(
-            [
-                # SquarePad(),
-                T.RandomHorizontalFlip(),
-                T.RandAugment(
-                    num_ops=4, magnitude=9, interpolation=T.InterpolationMode.BILINEAR
-                ),
-                Downscale((0.5, 0.5), p=0.1),
-                ChannelShuffle(p=0.5),
-                # GaussNoise(p=0.1),
-                T.ColorJitter(hue=0.15),
-                T.RandomGrayscale(p=0.1),
-                T.Resize((256, 192)),
-                # T.RandomResizedCrop((224, 224), scale=(0.7, 1.0)),
-                T.ToTensor(),
-                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ]
-        )
-
-        self.val_transform = T.Compose(
-            [
-                # SquarePad(),
-                T.Resize((256, 192)),
-                T.ToTensor(),
-                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ]
-        )
+        self.train_transform = train_transform
+        self.val_transform = val_transform
 
         self.train_ds: Optional[MultiLabelDataset] = None
         self.val_ds: Optional[MultiLabelDataset] = None

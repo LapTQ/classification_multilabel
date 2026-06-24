@@ -1,14 +1,17 @@
 import os
-import yaml
 from typing import List, Tuple
+
 import torch
+import yaml
 from PIL import Image
-import torchvision.transforms as T
+
 from src.core.model import MultiLabelClassifyModel
-from src.core.augmentations import SquarePad
+from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CKPT_PATH = "runs/classification/multilabel/v1/weights/best-epoch=00-val_f1_macro=0.000.ckpt"
+CKPT_PATH = (
+    "runs/classification/multilabel/v1/weights/best-epoch=00-val_f1_macro=0.000.ckpt"
+)
 INPUT_PATH = "data/test_images"  # Path tới file ảnh, file .txt hoặc thư mục
 OUTPUT_PATH = "predictions.txt"
 THRESHOLD = 0.5
@@ -32,18 +35,15 @@ def predict_model(
         cfg = yaml.safe_load(f)
 
     classes = cfg["classes"]
-    model = MultiLabelClassifyModel.load_from_checkpoint(ckpt_path).to(device)
+
+    backbone = create_backbone(cfg)
+    model = MultiLabelClassifyModel.load_from_checkpoint(ckpt_path, model=backbone).to(
+        device
+    )
     model.eval()
 
     # 3. Transform
-    transform = T.Compose(
-        [
-            SquarePad(),
-            T.Resize((224, 224)),
-            T.ToTensor(),
-            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        ]
-    )
+    transform = create_transform(cfg["val_augment"])
 
     # 4. Collect Images
     image_paths: List[str] = []
@@ -84,9 +84,7 @@ def predict_model(
                     # Fallback to the class with the highest probability
                     top_idx = int(torch.argmax(probs).item())
                     top_prob = float(probs[top_idx].item())
-                    active_preds.append(
-                        f"{classes[top_idx]}:{top_prob:.4f} (fallback)"
-                    )
+                    active_preds.append(f"{classes[top_idx]}:{top_prob:.4f} (fallback)")
 
                 pred_str = ",".join(active_preds)
                 results.append((path, pred_str))

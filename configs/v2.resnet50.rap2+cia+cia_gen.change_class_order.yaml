@@ -3,6 +3,8 @@
 # Thư mục chứa kết quả train (weights, logs, visualizations)
 output_dir: "/home/laptq/classification_multilabel/outputs/train/v2.resnet50.rap2+cia+cia_gen.change_class_order"
 
+model: "resnet50"
+
 resume_path: null # Path tới thư mục run để resume (nếu có)
 
 # Danh sách các class
@@ -42,3 +44,40 @@ precision: 32
 
 accelerator: "gpu"
 devices: [1, 2] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)
+
+train_augment:
+  # - SquarePad: {}
+  - RandomHorizontalFlip: {}
+  - RandAugment:
+      num_ops: 4
+      magnitude: 9
+      interpolation: "BILINEAR"
+  - Downscale:
+      scale_range: [0.5, 0.5]
+      p: 0.1
+  - ChannelShuffle:
+      p: 0.5
+  # - GaussNoise:
+  #     p: 0.1
+  - ColorJitter:
+      hue: 0.15
+  - RandomGrayscale:
+      p: 0.1
+  - Resize:
+      size: [256, 192]
+  # - RandomResizedCrop:
+  #     size: [224, 224]
+  #     scale: [0.7, 1.0]
+  - ToTensor: {}
+  - Normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+
+val_augment:
+  # - SquarePad: {}
+  - Resize:
+      size: [256, 192]
+  - ToTensor: {}
+  - Normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]

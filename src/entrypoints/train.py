@@ -1,19 +1,21 @@
 import os
-import yaml
+
 import pytorch_lightning as pl
+import yaml
 from pytorch_lightning.callbacks import (
-    ModelCheckpoint,
     EarlyStopping,
     LearningRateMonitor,
+    ModelCheckpoint,
 )
 from pytorch_lightning.loggers import CSVLogger
 
-from src.core.model import MultiLabelClassifyModel
 from src.core.data import MultiLabelDataModule
+from src.core.model import MultiLabelClassifyModel
 from src.core.utils import get_run_dir, visualize_batch
+from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CONFIG_PATH = "configs/v3.efficientnetv2s.rap2+cia+cia_gen.change_class_order.yaml"  # Path tới file cấu hình
+CONFIG_PATH = "configs/v6.resnet50.pa100k.yaml"  # Path tới file cấu hình
 # =====================================================
 
 
@@ -25,10 +27,13 @@ def train_model(config_path: str) -> None:
     with open(config_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
-    resume_path = cfg["resume_path"] if "resume_path" in cfg else None
-    accelerator = cfg["accelerator"] if "accelerator" in cfg else "gpu"
-    devices = cfg["devices"] if "devices" in cfg else "auto"
-    num_classes = len(cfg["classes"])
+    resume_path = cfg["resume_path"]
+    accelerator = cfg["accelerator"]
+    devices = cfg["devices"]
+
+    backbone = create_backbone(cfg)
+    train_transform = create_transform(cfg["train_augment"])
+    val_transform = create_transform(cfg["val_augment"])
 
     # 2. Setup Run Directory & Load Actual Config (if resume)
     if resume_path:
@@ -53,8 +58,10 @@ def train_model(config_path: str) -> None:
         train_files=cfg["train_data"],
         val_files=cfg["val_data"],
         classes=cfg["classes"],
+        train_transform=train_transform,
+        val_transform=val_transform,
         batch_size=cfg["batch_size"],
-        num_workers=cfg["num_workers"] if "num_workers" in cfg else 4,
+        num_workers=cfg["num_workers"],
     )
     dm.setup(stage="fit")
 
@@ -84,7 +91,8 @@ def train_model(config_path: str) -> None:
 
     # 4. Model
     model = MultiLabelClassifyModel(
-        num_classes=num_classes,
+        model=backbone,
+        num_classes=len(cfg["classes"]),
         lr=float(cfg["lr"]),
         weight_decay=float(cfg["weight_decay"]),
         class_names=cfg["classes"],
@@ -103,8 +111,8 @@ def train_model(config_path: str) -> None:
         CSVLogger(run_dir, name="logs"),
     ]
 
-    patience = cfg["patience"] if "patience" in cfg else 15
-    precision = cfg["precision"] if "precision" in cfg else 32
+    patience = cfg["patience"]
+    precision = cfg["precision"]
 
     # 6. Trainer
     trainer = pl.Trainer(
