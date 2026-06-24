@@ -46,25 +46,6 @@ Edit the training configurations in `configs/v2.resnet50.rap2+cia+cia_gen.change
 python3 -m src.entrypoints.train
 ```
 
-Notes:
-* **Backbone selection**: Modify in `src/core/model.py`:
-    ```python
-    # EfficientNet V2 S
-    self.model = models.efficientnet_v2_s(
-        weights=models.EfficientNet_V2_S_Weights.DEFAULT
-    )
-    in_features = self.model.classifier[1].in_features
-    self.model.classifier[1] = nn.Linear(in_features, num_classes)
-
-    # Or ResNet50
-    self.model = models.resnet50(
-        weights=models.ResNet50_Weights.DEFAULT
-    )
-    in_features = self.model.fc.in_features
-    self.model.fc = nn.Linear(in_features, num_classes)
-    ```
-* **Preprocess transform customization**: Modify `self.train_transform` and `self.val_transform` in `src/core/data.py`.
-
 ### Evaluation
 
 Edit `CKPT_PATH` in `src/entrypoints/eval.py` to point to your checkpoint, then run:
@@ -89,7 +70,3 @@ Inference results will be saved in the format:
 ```text
 <image_path>\t<label_1>:<probability_1>,<label_2>:<probability_2>,...
 ```
-
-**Important notes**:
-* If no label exceeds the probability threshold, the model will fallback to selecting the label with the highest probability.
-* Make sure that the `transform` variable in `src/entrypoints/predict.py` applies compatible preprocessing transforms in `src/core/data.py`

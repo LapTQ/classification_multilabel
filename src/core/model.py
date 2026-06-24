@@ -1,11 +1,11 @@
 import os
-from typing import Dict, List, Optional, Tuple, Any
-import numpy as np
+from typing import Any, Dict, List, Optional, Tuple
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-import pytorch_lightning as pl
-from torchvision import models
 from torchmetrics.classification import (
     MultilabelF1Score,
     MultilabelPrecision,
@@ -16,43 +16,27 @@ from torchmetrics.classification import (
 class MultiLabelClassifyModel(pl.LightningModule):
     def __init__(
         self,
+        model: nn.Module,
         num_classes: int,
         lr: float = 1e-4,
         weight_decay: float = 1e-5,
         class_names: Optional[List[str]] = None,
     ) -> None:
         super().__init__()
-        self.save_hyperparameters()
+        self.save_hyperparameters(ignore=["model"])
 
-        self.model = models.efficientnet_v2_s(
-            weights=models.EfficientNet_V2_S_Weights.DEFAULT
-        )
-        in_features = self.model.classifier[1].in_features
-        self.model.classifier[1] = nn.Linear(in_features, num_classes)
-        # self.model = models.resnet50(
-        #     weights=models.ResNet50_Weights.DEFAULT
-        # )
-        # in_features = self.model.fc.in_features
-        # self.model.fc = nn.Linear(in_features, num_classes)
+        self.model = model
 
         # Loss function for multi-label classification
         self.loss_fn = nn.BCEWithLogitsLoss()
 
         # Metrics for training, validation, testing
-        self.train_f1_macro = MultilabelF1Score(
-            num_labels=num_classes, average="macro"
-        )
-        self.val_f1_macro = MultilabelF1Score(
-            num_labels=num_classes, average="macro"
-        )
-        self.test_f1_macro = MultilabelF1Score(
-            num_labels=num_classes, average="macro"
-        )
+        self.train_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
+        self.val_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
+        self.test_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
 
         # Per-class metrics for test evaluation
-        self.test_f1_per_class = MultilabelF1Score(
-            num_labels=num_classes, average=None
-        )
+        self.test_f1_per_class = MultilabelF1Score(num_labels=num_classes, average=None)
         self.test_precision_per_class = MultilabelPrecision(
             num_labels=num_classes, average=None
         )
@@ -154,7 +138,9 @@ class MultiLabelClassifyModel(pl.LightningModule):
         # print metrics
         print("\n=== Test Metrics ===")
         for i, cls in enumerate(classes):
-            print(f"{cls:15s}: F1={f1_vals[i]:.3f}, Precision={prec_vals[i]:.3f}, Recall={rec_vals[i]:.3f}")
+            print(
+                f"{cls:15s}: F1={f1_vals[i]:.3f}, Precision={prec_vals[i]:.3f}, Recall={rec_vals[i]:.3f}"
+            )
         print(f"Macro F1: {self.test_f1_macro.compute().item():.3f}")
 
         # Plot bar chart of per-class metrics
@@ -190,11 +176,7 @@ class MultiLabelClassifyModel(pl.LightningModule):
 
         warmup_epochs = 3
         # Ensure trainer epochs is parsed
-        max_epochs = (
-            self.trainer.max_epochs
-            if self.trainer.max_epochs is not None and self.trainer.max_epochs > 0
-            else 100
-        )
+        max_epochs = self.trainer.max_epochs
         main_epochs = max_epochs - warmup_epochs
 
         warmup_scheduler = torch.optim.lr_scheduler.LinearLR(
