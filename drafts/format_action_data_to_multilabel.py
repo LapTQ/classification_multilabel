@@ -1,12 +1,15 @@
 import os
 from typing import Dict, List
+
 import yaml
 
 
 def map_input_path(original_path: str) -> str:
     """Maps the configuration paths to the actual filesystem paths."""
     # Replace the shoplifting-detection outputs path with classification outputs path
-    prefix_to_replace = "/home/laptq/laptq-fs26-shoplifting-detection/outputs/train_data/"
+    prefix_to_replace = (
+        "/home/laptq/laptq-fs26-shoplifting-detection/outputs/train_data/"
+    )
     actual_prefix = "/home/laptq/classification/outputs/train_data/"
     if original_path.startswith(prefix_to_replace):
         return original_path.replace(prefix_to_replace, actual_prefix)
@@ -39,7 +42,7 @@ def main() -> None:
     train_data_dict: Dict[str, List[str]] = config["train_data"]
     val_data_dict: Dict[str, List[str]] = config["val_data"]
 
-    output_root = "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_action_multilable/labels_actions--cluster-CNN-8--cut-l4"
+    output_root = "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4"
 
     # Process training data
     for class_name in classes:
