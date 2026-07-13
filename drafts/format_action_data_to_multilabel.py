@@ -42,7 +42,7 @@ def main() -> None:
     train_data_dict: Dict[str, List[str]] = config["train_data"]
     val_data_dict: Dict[str, List[str]] = config["val_data"]
 
-    output_root = "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4"
+    output_root = "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4"
 
     # Process training data
     for class_name in classes:

@@ -18,25 +18,25 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_quan/train--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_ao/train--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_deo_tren_nguoi/train--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_cam_tren_tay/train--min4k--max5k.txt"
-  # - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_gio_xe_hang/train--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_ke/train--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_cam_san_pham/train--min4k--max5k.txt"
-  # - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_khong_cam_san_pham/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_quan/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_ao/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_deo_tren_nguoi/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_cam_tren_tay/train--min4k--max5k.txt"
+  # - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_gio_xe_hang/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_ke/train--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_cam_san_pham/train--min4k--max5k.txt"
+  # - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_khong_cam_san_pham/train--min4k--max5k.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_quan/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_ao/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_deo_tren_nguoi/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_cam_tren_tay/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_gio_xe_hang/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_ke/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_cam_san_pham/val--min4k--max5k.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_khong_cam_san_pham/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_quan/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_ao/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_deo_tren_nguoi/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_tui_cam_tren_tay/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_gio_xe_hang/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/cho_tay_vao_ke/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_cam_san_pham/val--min4k--max5k.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/labels_actions--cluster-CNN-8--cut-l4/tay_khong_cam_san_pham/val--min4k--max5k.txt"
 
 # Tham số Training
 epochs: 50

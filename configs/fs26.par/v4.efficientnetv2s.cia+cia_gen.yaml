@@ -23,12 +23,12 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/CIA_combined_with_geneated_editting.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/CIA_original.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/CIA_combined_with_geneated_editting.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/CIA_original.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
 
 # Tham số Training
 epochs: 50

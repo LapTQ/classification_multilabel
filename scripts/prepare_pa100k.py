@@ -46,7 +46,7 @@ def main() -> None:
     image_dir: str = (
         "/home/laptq/classification_multilabel/data/person-attributes/pa100k/images"
     )
-    output_dir: str = "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes"
+    output_dir: str = "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes"
 
     # Interested attributes and their corresponding indices in the 26-dim label vector
     attribute_indices: Dict[int, str] = {

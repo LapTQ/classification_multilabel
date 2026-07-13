@@ -19,12 +19,12 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_train.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_train.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_val.txt"
-  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_test.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_val.txt"
+  - "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_test.txt"
 
 # Tham số Training
 epochs: 50

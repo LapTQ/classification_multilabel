@@ -240,8 +240,8 @@ if __name__ == "__main__":
 
     # Custom list of annotation files for error analysis
     custom_data_files: Optional[List[str]] = [
-        # "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_val.txt",
-        # "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_test.txt",
+        # "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_val.txt",
+        # "/home/laptq/data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_test.txt",
         "/home/laptq/classification_multilabel/outputs/trivials/filtered_Satudora_test.txt"
     ]
 
