@@ -36,8 +36,7 @@ class MultiLabelDataset(Dataset):
 
         for txt_file in data_files:
             if not os.path.exists(txt_file):
-                print(f"Warning: File {txt_file} does not exist.")
-                continue
+                raise FileNotFoundError(f"File {txt_file} does not exist.")
             with open(txt_file, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
@@ -46,9 +45,7 @@ class MultiLabelDataset(Dataset):
                     parts = line.split(",")
                     img_path = parts[0]
                     if not os.path.exists(img_path):
-                        # Warning to avoid spamming stdout for thousands of missing images
-                        # but keep it informative
-                        continue
+                        raise FileNotFoundError(f"File {img_path} does not exist.")
 
                     # Parse labels as class names
                     labels = []

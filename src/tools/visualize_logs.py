@@ -122,6 +122,6 @@ def visualize_training(run_dir: str) -> None:
 
 if __name__ == "__main__":
     # Dán đường dẫn thư mục run của bạn vào đây
-    RUN_DIR: str = "outputs/train/v6.resnet50.pa100k"
+    RUN_DIR: str = "outputs/train/v22.efficientnetv2.cluster-CNN-8--group-cls-123--cut-l4.remove-tkcsp-ctvgxh"
 
     visualize_training(RUN_DIR)
