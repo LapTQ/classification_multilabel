@@ -59,7 +59,7 @@ def filter_annotation_files(
 def main() -> None:
     """Main execution function to demonstrate the label filtering script."""
     input_files: List[str] = [
-        "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/Satudora_test.txt"
+        "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
     ]
     desired_labels: List[str] = ["backpack", "shoulderbag", "handbag", "product"]
     output_file: str = "/home/laptq/classification_multilabel/outputs/trivials/filtered_Satudora_test.txt"

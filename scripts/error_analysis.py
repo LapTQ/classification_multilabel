@@ -1,10 +1,11 @@
-import shutil
 import os
-from typing import Any, Dict, List, Tuple, Optional
+import shutil
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
 import yaml
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from src.core.data import MultiLabelDataset
@@ -57,9 +58,7 @@ def analyze_errors(
         threshold: Decision threshold for predictions.
         data_files: Optional custom list of txt files containing annotation paths.
     """
-    device: torch.device = torch.device(
-        "cuda" if torch.cuda.is_available() else "cpu"
-    )
+    device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # 1. Load Config
@@ -98,9 +97,9 @@ def analyze_errors(
 
     # 3. Load Model
     backbone = create_backbone(cfg)
-    model = MultiLabelClassifyModel.load_from_checkpoint(
-        ckpt_path, model=backbone
-    ).to(device)
+    model = MultiLabelClassifyModel.load_from_checkpoint(ckpt_path, model=backbone).to(
+        device
+    )
     model.eval()
 
     # Initialize error lists for each class
@@ -161,9 +160,7 @@ def analyze_errors(
         sorted_fps: List[Tuple[str, float]] = sorted(
             fps, key=lambda x: x[1], reverse=True
         )
-        sorted_fns: List[Tuple[str, float]] = sorted(
-            fns, key=lambda x: x[1]
-        )
+        sorted_fns: List[Tuple[str, float]] = sorted(fns, key=lambda x: x[1])
 
         # Save TP list
         tp_file: str = os.path.join(class_dir, "TP.txt")
@@ -195,47 +192,37 @@ def analyze_errors(
         f"{'Precision':<10} | {'Recall':<10} | {'F1-Score':<10}"
     )
     print("-" * 95)
-    
+
     precisions: List[float] = []
     recalls: List[float] = []
     f1s: List[float] = []
-    
+
     for c_name, tp_count, fp_count, fn_count in summary_data:
         precision: float = (
-            tp_count / (tp_count + fp_count)
-            if (tp_count + fp_count) > 0
-            else 0.0
+            tp_count / (tp_count + fp_count) if (tp_count + fp_count) > 0 else 0.0
         )
         recall: float = (
-            tp_count / (tp_count + fn_count)
-            if (tp_count + fn_count) > 0
-            else 0.0
+            tp_count / (tp_count + fn_count) if (tp_count + fn_count) > 0 else 0.0
         )
         f1: float = (
             (2 * precision * recall) / (precision + recall)
             if (precision + recall) > 0
             else 0.0
         )
-        
+
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)
-        
+
         print(
             f"{c_name:<25} | {tp_count:<6} | {fp_count:<6} | {fn_count:<6} | "
             f"{precision:<10.4f} | {recall:<10.4f} | {f1:<10.4f}"
         )
-    
+
     print("-" * 95)
-    macro_precision: float = (
-        sum(precisions) / len(precisions) if precisions else 0.0
-    )
-    macro_recall: float = (
-        sum(recalls) / len(recalls) if recalls else 0.0
-    )
-    macro_f1: float = (
-        sum(f1s) / len(f1s) if f1s else 0.0
-    )
+    macro_precision: float = sum(precisions) / len(precisions) if precisions else 0.0
+    macro_recall: float = sum(recalls) / len(recalls) if recalls else 0.0
+    macro_f1: float = sum(f1s) / len(f1s) if f1s else 0.0
     print(
         f"{'Macro Average':<25} | {'-':<6} | {'-':<6} | {'-':<6} | "
         f"{macro_precision:<10.4f} | {macro_recall:<10.4f} | {macro_f1:<10.4f}"
@@ -246,26 +233,24 @@ def analyze_errors(
 
 if __name__ == "__main__":
     # Standard paths
-    ckpt_path_default: str = "outputs/train/v6.resnet50.pa100k/weights/best-epoch=03-val_f1_macro=0.664.ckpt"
+    ckpt_path_default: str = (
+        "outputs/train/v6.resnet50.pa100k/weights/best-epoch=03-val_f1_macro=0.664.ckpt"
+    )
     output_dir_default: str = "outputs/error_analysis"
 
     # Custom list of annotation files for error analysis
     custom_data_files: Optional[List[str]] = [
-        # "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/pa100k_val.txt",
-        # "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/pa100k_test.txt",
+        # "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_val.txt",
+        # "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/pa100k_test.txt",
         "/home/laptq/classification_multilabel/outputs/trivials/filtered_Satudora_test.txt"
     ]
 
     # Allow overriding via environment variables or use defaults
     ckpt: str = (
-        os.environ["CKPT_PATH"]
-        if "CKPT_PATH" in os.environ
-        else ckpt_path_default
+        os.environ["CKPT_PATH"] if "CKPT_PATH" in os.environ else ckpt_path_default
     )
     out: str = (
-        os.environ["OUTPUT_DIR"]
-        if "OUTPUT_DIR" in os.environ
-        else output_dir_default
+        os.environ["OUTPUT_DIR"] if "OUTPUT_DIR" in os.environ else output_dir_default
     )
 
     analyze_errors(ckpt, out, data_files=custom_data_files)

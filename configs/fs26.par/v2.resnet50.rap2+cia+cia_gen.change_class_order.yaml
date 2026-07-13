@@ -23,15 +23,15 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/CIA_combined_with_geneated_editting.txt"
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/CIA_original.txt"
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/RAP2_test.txt"
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/RAP2_train.txt"
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/RAP2_val.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/CIA_combined_with_geneated_editting.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/CIA_original.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/RAP2_test.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/RAP2_train.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/RAP2_val.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel/Satudora_test.txt"
+  - "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
 
 # Tham số Training
 epochs: 50

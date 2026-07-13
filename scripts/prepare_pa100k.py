@@ -1,5 +1,6 @@
 import os
 from typing import Dict, List
+
 import numpy as np
 import scipy.io as sio
 
@@ -42,8 +43,10 @@ def process_split(
 def main() -> None:
     """Main execution function to load the mat file and write output splits."""
     mat_path: str = "/home/laptq/classification_multilabel/data/person-attributes/pa100k/annotation/annotation.mat"
-    image_dir: str = "/home/laptq/classification_multilabel/data/person-attributes/pa100k/images"
-    output_dir: str = "/home/laptq/classification_multilabel/outputs/train_data/classify_rgb_multilabel"
+    image_dir: str = (
+        "/home/laptq/classification_multilabel/data/person-attributes/pa100k/images"
+    )
+    output_dir: str = "/home/laptq/data/fs26/processed/train_data/classify_rgb_multilabel/person_attributes"
 
     # Interested attributes and their corresponding indices in the 26-dim label vector
     attribute_indices: Dict[int, str] = {
