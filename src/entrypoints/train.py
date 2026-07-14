@@ -15,7 +15,7 @@ from src.core.utils import get_run_dir, visualize_batch
 from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CONFIG_PATH = "configs/fs26.action/v23.efficientnetv2.cluster-CNN-8--group-cls-123--cut-l4.remove-tkcsp.yaml"  # Path tới file cấu hình
+CONFIG_PATH = "configs/fs26.par/v7.efficientnetv2m.cia+cia_gen+pa100k.yaml"  # Path tới file cấu hình
 # =====================================================
 
 
