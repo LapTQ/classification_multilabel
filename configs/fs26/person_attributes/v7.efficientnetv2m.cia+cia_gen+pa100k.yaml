@@ -1,7 +1,7 @@
 # Cấu hình huấn luyện EfficientNetV2 cho Multi-label Classification
 
 # Thư mục chứa kết quả train (weights, logs, visualizations)
-output_dir: "models/checkpoints/fs26/classification_multilabel/v7.efficientnetv2m.cia+cia_gen+pa100k"
+output_dir: "models/checkpoints/fs26/person_attributes/classification_multilabel/v7.efficientnetv2m.cia+cia_gen+pa100k"
 
 model: "efficientnetv2m"
 
@@ -47,7 +47,7 @@ num_workers: 8
 precision: 32
 
 accelerator: "gpu"
-devices: [1] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)
+devices: [2] # Sử dụng GPU 0 (hoặc thay đổi cho phù hợp với hệ thống)
 
 train_augment:
   # - SquarePad: {}
