@@ -18,24 +18,24 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/CIA_combined_with_geneated_editting.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/CIA_original.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_train--no_HoldObjectsInFront--x0.5_negative.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/CIA_combined_with_geneated_editting.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/CIA_original.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/pa100k_train--no_HoldObjectsInFront--x0.5_negative.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/Satudora_test.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_val--no_HoldObjectsInFront--x0.5_negative.txt"
-  - "data/processed/fs26/train_data/classify_rgb_multilabel/person_attributes/pa100k_test--no_HoldObjectsInFront--x0.5_negative.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/Satudora_test.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/pa100k_val--no_HoldObjectsInFront--x0.5_negative.txt"
+  - "data/processed/fs26/person_attributes/classification_multilabel/pa100k_test--no_HoldObjectsInFront--x0.5_negative.txt"
 
 # Tham số Training
 epochs: 100
