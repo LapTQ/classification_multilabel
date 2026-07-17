@@ -1,7 +1,7 @@
 # Cấu hình huấn luyện ResNet50 cho Action Multi-label Classification
 
 # Thư mục chứa kết quả train (weights, logs, visualizations)
-output_dir: "/home/laptq/classification_multilabel/outputs/train/v22.efficientnetv2.action.for_CNN.8_classes_grouped_123.cut_left_4_frames.remove-tkcsp-ctvgxh"
+output_dir: "models/checkpoints/fs26/action_recognition/classification_multilabel/v22.efficientnetv2.action.for_CNN.8_classes_grouped_123.cut_left_4_frames.remove-tkcsp-ctvgxh"
 
 resume_path: null # Path tới thư mục run để resume (nếu có)
 
@@ -16,21 +16,21 @@ classes:
 
 # Dữ liệu tập Train (Danh sách file .txt)
 train_data:
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_quan/train--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_ao_tui_deo_tui_cam_tay/train--min4k--max5k.txt"
-  # - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_gio_xe_hang/train--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_ke/train--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_cam_san_pham/train--min4k--max5k.txt"
-  # - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_khong_cam_san_pham/train--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_quan/train--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_ao_tui_deo_tui_cam_tay/train--min4k--max5k.txt"
+  # - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_gio_xe_hang/train--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_ke/train--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_cam_san_pham/train--min4k--max5k.txt"
+  # - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_khong_cam_san_pham/train--min4k--max5k.txt"
 
 # Dữ liệu tập Val/Test (Danh sách file .txt)
 val_data:
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_quan/val--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_ao_tui_deo_tui_cam_tay/val--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_gio_xe_hang/val--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_ke/val--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_cam_san_pham/val--min4k--max5k.txt"
-  - "/home/laptq/classification_multilabel/data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_khong_cam_san_pham/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_quan/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_tui_ao_tui_deo_tui_cam_tay/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_gio_xe_hang/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/cho_tay_vao_ke/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_cam_san_pham/val--min4k--max5k.txt"
+  - "data/processed/fs26/action_recognition/classification_multilabel/action.for_CNN.8_classes_grouped_123.cut_left_4_frames/tay_khong_cam_san_pham/val--min4k--max5k.txt"
 
 # Tham số Training
 epochs: 50
