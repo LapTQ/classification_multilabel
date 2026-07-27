@@ -8,6 +8,7 @@ import torch
 import torchvision.transforms as T
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
+from tqdm import tqdm
 
 
 class MultiLabelDataset(Dataset):
@@ -34,11 +35,11 @@ class MultiLabelDataset(Dataset):
         if isinstance(data_files, str):
             data_files = [data_files]
 
-        for txt_file in data_files:
+        for txt_file in tqdm(data_files, desc="Loading data"):
             if not os.path.exists(txt_file):
                 raise FileNotFoundError(f"File {txt_file} does not exist.")
             with open(txt_file, "r", encoding="utf-8") as f:
-                for line in f:
+                for line in tqdm(f):
                     line = line.strip()
                     if not line:
                         continue

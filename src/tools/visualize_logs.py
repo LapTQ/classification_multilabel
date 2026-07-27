@@ -122,6 +122,6 @@ def visualize_training(run_dir: str) -> None:
 
 if __name__ == "__main__":
     # Dán đường dẫn thư mục run của bạn vào đây
-    RUN_DIR: str = "outputs/train/v22.efficientnetv2.cluster-CNN-8--group-cls-123--cut-l4.remove-tkcsp-ctvgxh"
+    RUN_DIR: str = "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v2.efficientnetv2l.action_8classes_group123+cia_orig+cia_syn+pa100k+satudora10k"
 
     visualize_training(RUN_DIR)

@@ -15,7 +15,7 @@ from src.core.utils import get_run_dir, visualize_batch
 from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CONFIG_PATH = "configs/fs26/person_attributes/v7.efficientnetv2m.cia+cia_gen+pa100k.yaml"  # Path tới file cấu hình
+CONFIG_PATH = "configs/fs26/action+attributes+view/v2.efficientnetv2l.action_8classes_group123+cia_orig+cia_syn+pa100k+satudora10k.yaml"  # Path tới file cấu hình
 # =====================================================
 
 

@@ -8,7 +8,7 @@ from src.core.model import MultiLabelClassifyModel
 from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CKPT_PATH = "outputs/train/v20.2dcnn.cluster-CNN-7--cut-l4.sigmoid-bce.exclude-neg-img/weights/best-epoch=09-val_f1_macro=0.334.ckpt"
+CKPT_PATH = "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v1.efficientnetv2s.action_8classes_group123+cia_orig+cia_syn+pa100k+satudora10k/weights/best-epoch=28-val_f1_macro=0.669.ckpt"
 # =====================================================
 
 
