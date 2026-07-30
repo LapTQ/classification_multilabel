@@ -15,7 +15,7 @@ from src.core.utils import get_run_dir, visualize_batch
 from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CONFIG_PATH = "configs/fs26/action+attributes+view/v2.efficientnetv2l.action_8classes_group123+cia_orig+cia_syn+pa100k+satudora10k.yaml"  # Path tới file cấu hình
+CONFIG_PATH = "configs/fs26/action+attributes+view/v3.efficientnetv2s.action_8classes_group123+resagepar_syn+cia_orig+cia_syn+pa100k+satudora10k.yaml"  # Path tới file cấu hình
 # =====================================================
 
 
@@ -47,9 +47,11 @@ def train_model(config_path: str) -> None:
             cfg["accelerator"] = accelerator
     else:
         run_dir = get_run_dir(cfg["output_dir"])
-        # Lưu lại config để phục vụ resume sau này
-        with open(os.path.join(run_dir, "config.yaml"), "w", encoding="utf-8") as f:
-            yaml.dump(cfg, f, allow_unicode=True)
+        # Tạo softlink tới file config gốc thay vì copy/dump lại file mới
+        dst_config = os.path.join(run_dir, "config.yaml")
+        if os.path.lexists(dst_config):
+            os.remove(dst_config)
+        os.symlink(os.path.abspath(config_path), dst_config)
 
     print(f"Output directory: {run_dir}")
 
