@@ -21,7 +21,7 @@ from src.entrypoints.bootstrap import create_backbone, create_transform
 from tqdm import tqdm
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
-CKPT_PATH = "outputs/train/v22.efficientnetv2.cluster-CNN-8--group-cls-123--cut-l4.remove-tkcsp-ctvgxh/weights/best-epoch=03-val_f1_macro=0.482.ckpt"
+CKPT_PATH = "models/checkpoints/fs26/action_recognition/classification_multilabel/v24.efficientnetv2m.action.for_CNN.8_classes_grouped_123.manually_selected+flux_set_1_2_3_4_5_7_8_9_10_11_12+sensenova_set_1_2.remove-tkcsp-ctvgxh.256x192/weights/best-epoch=85-val_f1_macro=0.315.ckpt"
 # =====================================================
 
 

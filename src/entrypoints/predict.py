@@ -11,7 +11,7 @@ from src.entrypoints.bootstrap import create_backbone, create_transform
 
 # ================= CẤU HÌNH TRỰC TIẾP =================
 CKPT_PATH = (
-    "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v1.efficientnetv2s.action_8classes_group123+cia_orig+cia_syn+pa100k+satudora10k/weights/best-epoch=28-val_f1_macro=0.669.ckpt"
+    "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v4.efficientnetv2s.action_8classes_group123+resagepar_v1_v2+cia_orig+cia_syn+pa100k+satudora10k/weights/best-epoch=43-val_f1_macro=0.671.ckpt"
 )
 INPUT_PATH = "data/tmp/remove_dup_path/action.for_CNN.8_classes_grouped_123.cut_left_4_frames.val--min4k--max5k.txt"  # Path tới file ảnh, file .txt hoặc thư mục
 OUTPUT_PATH = "/home/laptq/classification_multilabel/data/tmp/predictions.txt"

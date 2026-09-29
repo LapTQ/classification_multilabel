@@ -1,0 +1,188 @@
+# Thư mục chứa kết quả train (weights, logs, visualizations)
+output_dir: "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v7.efficientnetv2s.action_8classes_group23+flux_1_2_3_4_5_7_8+cia_orig+cia_syn+pa100k+satudora10k.with_normal"
+
+resume_path: null # Path tới thư mục run để resume (nếu có)
+
+# Thứ tự các class (Quan trọng: phải khớp với chỉ số khi lưu/load model)
+classes:
+  - front
+  - back
+  - side
+  - handbag       
+  - shoulderbag   
+  - backpack      
+  - basket        
+  - cart          
+  - cho_tay_vao_tui_quan
+  - cho_tay_vao_tui_ao
+  - cho_tay_vao_tui_deo_tui_cam_tay
+  - cho_tay_vao_ke
+  - tay_cam_san_pham
+  - normal
+
+# Dữ liệu tập Train (Danh sách file .txt)
+train_data:
+  # cho_tay_vao_tui_quan
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-4/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-5/cho_tay_vao_tui_quan/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-4/cho_tay_vao_tui_quan/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-5/cho_tay_vao_tui_quan/train.txt
+
+  # cho_tay_vao_tui_ao
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-7/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-8/cho_tay_vao_tui_ao/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-7/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-8/cho_tay_vao_tui_ao/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-7/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-8/cho_tay_vao_tui_ao/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-8/cho_tay_vao_tui_ao/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-8/cho_tay_vao_tui_ao/train.txt
+
+  # cho_tay_vao_tui_deo_tui_cam_tay
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-2/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-3/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-2/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-3/cho_tay_vao_tui_deo_tui_cam_tay/train.txt
+
+  # cho_tay_vao_gio_xe_hang
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_gio_xe_hang/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_gio_xe_hang/train.txt
+
+  # cho_tay_vao_ke
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_ke/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/cho_tay_vao_ke/train.txt
+
+  # tay_cam_san_pham
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_cam_san_pham/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/tay_cam_san_pham/train.txt
+
+  # tay_khong_cam_san_pham
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_khong_cam_san_pham/train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.gen-flux--set-1/tay_khong_cam_san_pham/train.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/pa100k_train.txt
+  - data/processed/fs26/action+attributes+view/with_normal/CIA_original.txt
+  - data/processed/fs26/action+attributes+view/with_normal/CIA_combined_with_geneated_editting.txt
+
+# Dữ liệu tập Val/Test (Danh sách file .txt)
+val_data:
+  # action.for_CNN.8_classes_grouped_23.manually_selected - val.easy
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_khong_cam_san_pham/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_ao/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_deo_tui_cam_tay/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_ke/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_gio_xe_hang/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_cam_san_pham/val.easy.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_quan/val.easy.txt
+  # action.for_CNN.8_classes_grouped_23.manually_selected - val.medium
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_khong_cam_san_pham/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_ao/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_deo_tui_cam_tay/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_ke/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_gio_xe_hang/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/tay_cam_san_pham/val.medium.txt
+  - data/processed/fs26/action+attributes+view/with_normal/action.for_CNN.8_classes_grouped_23.manually_selected/cho_tay_vao_tui_quan/val.medium.txt
+
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/Satudora_test.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/satudora10k--val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/pa100k_val.txt
+  - data/processed/fs26/action+attributes+view/with_normal/pa100k_test.txt
+  
+# Tham số Training
+epochs: 100
+batch_size: 128
+lr: 1e-5
+weight_decay: 0.0005
+patience: 30
+num_workers: 8
+precision: 32 # Có thể dùng 16 hoặc 32
+
+accelerator: "gpu" # "cpu", "gpu"
+devices: [0, 2] # "auto", 0, 1, ...
+
+model: "efficientnetv2s"
+
+train_augment:
+  # - SquarePad: {}
+  - RandomHorizontalFlip: {}
+  - RandAugment:
+      num_ops: 3
+      magnitude: 20
+      interpolation: "BILINEAR"
+  - Downscale:
+      scale_range: [0.5, 0.5]
+      p: 0.1
+  - ChannelShuffle:
+      p: 0.5
+  # - GaussNoise:
+  #     p: 0.1
+  - ColorJitter:
+      hue: 0.15
+  - RandomGrayscale:
+      p: 0.1
+  - Resize:
+      size: [256, 192]
+  # - RandomResizedCrop:
+  #     size: [224, 224]
+  #     scale: [0.7, 1.0]
+  - ToTensor: {}
+  - Normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+
+val_augment:
+  # - SquarePad: {}
+  - Resize:
+      size: [256, 192]
+  - ToTensor: {}
+  - Normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]

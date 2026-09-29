@@ -1,5 +1,5 @@
 # Thư mục chứa kết quả train (weights, logs, visualizations)
-output_dir: "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v3.efficientnetv2s.action_8classes_group123+resagepar_syn+cia_orig+cia_syn+pa100k+satudora10k"
+output_dir: "models/checkpoints/fs26/action+attributes+view/classification_multilabel/v4.efficientnetv2s.action_8classes_group123+resagepar_v1_v2+cia_orig+cia_syn+pa100k+satudora10k"
 
 resume_path: null # Path tới thư mục run để resume (nếu có)
 
@@ -23,6 +23,7 @@ classes:
 train_data:
   - data/processed/fs26/action+attributes+view/action.for_CNN.8_classes_grouped_123.cut_left_4_frames.train--min4k--max5k.txt
   - data/processed/fs26/action+attributes+view/train_resagepar.txt
+  - data/processed/fs26/action+attributes+view/train_resagepar_v2.txt
   - data/processed/fs26/action+attributes+view/satudora10k--train.txt
   - data/processed/fs26/action+attributes+view/pa100k_train.txt
   - data/processed/fs26/action+attributes+view/CIA_original.txt
