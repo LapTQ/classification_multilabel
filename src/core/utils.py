@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -38,17 +38,23 @@ def get_run_dir(run_dir: str) -> str:
 
 
 def visualize_batch(
-    batch: Tuple[torch.Tensor, torch.Tensor, List[str]],
+    batch: Tuple[Any, ...],
     classes: List[str],
     output_path: str,
     title: str = "Batch",
 ) -> None:
-    imgs, labels, _ = batch
+    if len(batch) >= 4:
+        imgs, labels, masks, _ = batch[0], batch[1], batch[2], batch[3]
+    else:
+        imgs, labels = batch[0], batch[1]
+        masks = None
 
     # Số lượng ảnh muốn hiển thị (max 16)
     n = min(len(imgs), 16)
     imgs = imgs[:n]
     labels = labels[:n]
+    if masks is not None:
+        masks = masks[:n]
 
     # Unnormalize (ImageNet standards)
     mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
@@ -67,14 +73,19 @@ def visualize_batch(
 
         plt.imshow(img)
 
-        # Get active class indices for multi-label
-        active_indices = torch.where(labels[i] > 0.5)[0].cpu().tolist()
+        # Get active class indices for multi-label (+ and -)
         active_names = []
-        for idx in active_indices:
-            if idx < len(classes):
-                active_names.append(classes[idx])
-            else:
-                active_names.append(f"ID:{idx}")
+        if masks is not None:
+            pos_indices = torch.where((labels[i] > 0.5) & (masks[i] > 0.5))[0].cpu().tolist()
+            neg_indices = torch.where((labels[i] <= 0.5) & (masks[i] > 0.5))[0].cpu().tolist()
+            for idx in pos_indices:
+                active_names.append(f"+{classes[idx]}" if idx < len(classes) else f"+ID:{idx}")
+            for idx in neg_indices:
+                active_names.append(f"-{classes[idx]}" if idx < len(classes) else f"-ID:{idx}")
+        else:
+            active_indices = torch.where(labels[i] > 0.5)[0].cpu().tolist()
+            for idx in active_indices:
+                active_names.append(classes[idx] if idx < len(classes) else f"ID:{idx}")
 
         if not active_names:
             class_name = "None"

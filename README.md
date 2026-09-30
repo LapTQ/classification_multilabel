@@ -30,12 +30,17 @@ classification_multilabel/
 
 Input data consists of text files (`.txt`). Each line corresponds to an image and its associated labels separated by commas:
 ```text
-<absolute_image_path>,<class_name_1>,<class_name_2>,...
+<absolute_image_path>,<sign><class_name_1>,<sign><class_name_2>,...
 ```
+* **Positive label (1.0):** Nhãn bắt buộc phải có tiền tố `+` (ví dụ: `+paperbag`, `+shoulderbag`).
+* **Negative label (0.0):** Nhãn không được phép, bắt buộc phải có tiền tố `-` (ví dụ: `-cart`, `-handtrunk`).
+* **Ignored / Don't-care label (bỏ qua không tính loss và metric):** Các nhãn không được nhắc tới trong dòng.
+* **Lưu ý:** Tất cả các nhãn trong dòng **bắt buộc** phải bắt đầu bằng `+` hoặc `-`. Nếu thiếu 2 ký hiệu này, hệ thống sẽ ném lỗi `ValueError` để cảnh báo file dữ liệu chưa được cập nhật lên format mới.
+
 *Example:*
 ```text
-path/to/image/1.jpg,paperbag,shoulderbag
-path/to/image/2.jpg,cart,handtrunk,plasticbag
+path/to/image/1.jpg,+paperbag,+shoulderbag,-cart
+path/to/image/2.jpg,+cart,+handtrunk,-paperbag,-shoulderbag
 ```
 
 ## 3. Usage

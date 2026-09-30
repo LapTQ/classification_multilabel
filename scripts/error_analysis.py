@@ -111,18 +111,22 @@ def analyze_errors(
     print("Running inference on validation dataset...")
     with torch.no_grad():
         for batch in tqdm(loader, desc="Inference"):
-            imgs, targets, paths = batch
+            imgs, targets, masks, paths = batch
             imgs = imgs.to(device)
             logits = model(imgs)
             probs = torch.sigmoid(logits).cpu().numpy()
             targets = targets.cpu().numpy()
+            masks = masks.cpu().numpy()
 
             for idx in range(len(paths)):
                 path: str = paths[idx]
                 prob: np.ndarray = probs[idx]
                 target: np.ndarray = targets[idx]
+                mask: np.ndarray = masks[idx]
 
                 for c_idx, c_name in enumerate(classes):
+                    if mask[c_idx] == 0:
+                        continue
                     p_val: float = float(prob[c_idx])
                     t_val: float = float(target[c_idx])
                     pred_val: int = 1 if p_val >= threshold else 0

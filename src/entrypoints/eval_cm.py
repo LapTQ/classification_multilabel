@@ -119,7 +119,7 @@ def evaluate_confusion_matrix(ckpt_path: str) -> None:
     print("Running evaluation on validation set...")
     with torch.no_grad():
         for batch in tqdm(val_loader, desc="Evaluation"):
-            imgs, targets, paths = batch
+            imgs, targets, masks, paths = batch
             imgs = imgs.to(device)
             logits = model(imgs)
             probs = torch.sigmoid(logits)

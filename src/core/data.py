@@ -1,6 +1,6 @@
 import os
 import random
-from typing import List, Optional, Tuple, Union
+from typing import Any, List, Optional, Tuple, Union
 
 import numpy as np
 import pytorch_lightning as pl
@@ -26,6 +26,7 @@ class MultiLabelDataset(Dataset):
         """
         self.image_paths: List[str] = []
         self.targets: List[np.ndarray] = []
+        self.masks: List[np.ndarray] = []
         self.transform: Optional[T.Compose] = transform
         self.classes: List[str] = classes
         self.num_classes: int = len(classes)
@@ -39,31 +40,46 @@ class MultiLabelDataset(Dataset):
             if not os.path.exists(txt_file):
                 raise FileNotFoundError(f"File {txt_file} does not exist.")
             with open(txt_file, "r", encoding="utf-8") as f:
-                for line in tqdm(f):
+                for line_idx, line in enumerate(tqdm(f), start=1):
                     line = line.strip()
                     if not line:
                         continue
                     parts = line.split(",")
-                    img_path = parts[0]
+                    img_path = parts[0].strip()
                     if not os.path.exists(img_path):
                         raise FileNotFoundError(f"File {img_path} does not exist.")
 
-                    # Parse labels as class names
-                    labels = []
-                    for p in parts[1:]:
-                        cls_name = p.strip().lower()
-                        if cls_name:
-                            if cls_name in class_to_idx:
-                                labels.append(class_to_idx[cls_name])
-
-                    # Convert to multi-hot target
+                    # Convert to multi-hot target and validity mask
+                    # Default: unmentioned classes are ignored (mask = 0.0)
                     target = np.zeros(self.num_classes, dtype=np.float32)
-                    for label in labels:
-                        if 0 <= label < self.num_classes:
-                            target[label] = 1.0
+                    mask = np.zeros(self.num_classes, dtype=np.float32)
+
+                    for p in parts[1:]:
+                        token = p.strip()
+                        if not token:
+                            continue
+                        if not token.startswith(("+", "-")):
+                            raise ValueError(
+                                f"Nhãn '{token}' trong file '{txt_file}', dòng {line_idx} "
+                                f"(ảnh: '{img_path}') phải bắt đầu bằng '+' (positive) hoặc '-' (negative). "
+                                f"=> File .txt này chưa cập nhật định dạng mới."
+                            )
+                        sign = token[0]
+                        cls_name = token[1:].strip().lower()
+                        if not cls_name:
+                            raise ValueError(
+                                f"Tên nhãn rỗng '{sign}' trong file '{txt_file}', "
+                                f"dòng {line_idx} (ảnh: '{img_path}')."
+                            )
+                        if cls_name in class_to_idx:
+                            idx = class_to_idx[cls_name]
+                            if 0 <= idx < self.num_classes:
+                                mask[idx] = 1.0
+                                target[idx] = 1.0 if sign == "+" else 0.0
 
                     self.image_paths.append(img_path)
                     self.targets.append(target)
+                    self.masks.append(mask)
 
         # Shuffle dataset
         idxs = list(range(len(self.image_paths)))
@@ -71,6 +87,7 @@ class MultiLabelDataset(Dataset):
         random.shuffle(idxs)
         self.image_paths = [self.image_paths[i] for i in idxs]
         self.targets = [self.targets[i] for i in idxs]
+        self.masks = [self.masks[i] for i in idxs]
 
         print(
             f"Dataset initialized with {len(self.image_paths)} images across {self.num_classes} classes."
@@ -79,15 +96,23 @@ class MultiLabelDataset(Dataset):
     def __len__(self) -> int:
         return len(self.image_paths)
 
-    def __getitem__(self, index: int) -> Tuple[torch.Tensor, torch.Tensor, str]:
+    def __getitem__(
+        self, index: int
+    ) -> Tuple[Any, torch.Tensor, torch.Tensor, str]:
         img_path = self.image_paths[index]
         target = self.targets[index]
+        mask = self.masks[index]
         img = Image.open(img_path).convert("RGB")
 
         if self.transform:
             img = self.transform(img)
 
-        return img, torch.tensor(target, dtype=torch.float32), img_path
+        return (
+            img,
+            torch.tensor(target, dtype=torch.float32),
+            torch.tensor(mask, dtype=torch.float32),
+            img_path,
+        )
 
 
 class MultiLabelDataModule(pl.LightningDataModule):

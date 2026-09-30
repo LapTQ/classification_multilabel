@@ -6,10 +6,12 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-from torchmetrics.classification import (
-    MultilabelF1Score,
-    MultilabelPrecision,
-    MultilabelRecall,
+
+from src.core.loss import MaskedBCEWithLogitsLoss
+from src.core.metrics import (
+    MaskedMultilabelF1Score,
+    MaskedMultilabelPrecision,
+    MaskedMultilabelRecall,
 )
 
 
@@ -27,20 +29,28 @@ class MultiLabelClassifyModel(pl.LightningModule):
 
         self.model = model
 
-        # Loss function for multi-label classification
-        self.loss_fn = nn.BCEWithLogitsLoss()
+        # Loss function for multi-label classification with mask support
+        self.loss_fn = MaskedBCEWithLogitsLoss()
 
         # Metrics for training, validation, testing
-        self.train_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
-        self.val_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
-        self.test_f1_macro = MultilabelF1Score(num_labels=num_classes, average="macro")
+        self.train_f1_macro: MaskedMultilabelF1Score = MaskedMultilabelF1Score(
+            num_labels=num_classes, average="macro"
+        )
+        self.val_f1_macro: MaskedMultilabelF1Score = MaskedMultilabelF1Score(
+            num_labels=num_classes, average="macro"
+        )
+        self.test_f1_macro: MaskedMultilabelF1Score = MaskedMultilabelF1Score(
+            num_labels=num_classes, average="macro"
+        )
 
         # Per-class metrics for test evaluation
-        self.test_f1_per_class = MultilabelF1Score(num_labels=num_classes, average=None)
-        self.test_precision_per_class = MultilabelPrecision(
+        self.test_f1_per_class: MaskedMultilabelF1Score = MaskedMultilabelF1Score(
             num_labels=num_classes, average=None
         )
-        self.test_recall_per_class = MultilabelRecall(
+        self.test_precision_per_class: MaskedMultilabelPrecision = (
+            MaskedMultilabelPrecision(num_labels=num_classes, average=None)
+        )
+        self.test_recall_per_class: MaskedMultilabelRecall = MaskedMultilabelRecall(
             num_labels=num_classes, average=None
         )
 
@@ -50,13 +60,15 @@ class MultiLabelClassifyModel(pl.LightningModule):
         return self.model(x)
 
     def training_step(
-        self, batch: Tuple[torch.Tensor, torch.Tensor, List[str]], batch_idx: int
+        self,
+        batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, List[str]],
+        batch_idx: int,
     ) -> torch.Tensor:
-        x, y, _ = batch
+        x, y, mask, _ = batch
         logits = self(x)
-        loss = self.loss_fn(logits, y)
+        loss = self.loss_fn(logits, y, mask)
 
-        f1 = self.train_f1_macro(logits, y.long())
+        f1 = self.train_f1_macro(logits, y, mask)
         self.log(
             "train_loss",
             loss,
@@ -76,13 +88,15 @@ class MultiLabelClassifyModel(pl.LightningModule):
         return loss
 
     def validation_step(
-        self, batch: Tuple[torch.Tensor, torch.Tensor, List[str]], batch_idx: int
+        self,
+        batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, List[str]],
+        batch_idx: int,
     ) -> torch.Tensor:
-        x, y, _ = batch
+        x, y, mask, _ = batch
         logits = self(x)
-        loss = self.loss_fn(logits, y)
+        loss = self.loss_fn(logits, y, mask)
 
-        self.val_f1_macro(logits, y.long())
+        self.val_f1_macro(logits, y, mask)
 
         self.log(
             "val_loss",
@@ -101,16 +115,18 @@ class MultiLabelClassifyModel(pl.LightningModule):
         return loss
 
     def test_step(
-        self, batch: Tuple[torch.Tensor, torch.Tensor, List[str]], batch_idx: int
+        self,
+        batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, List[str]],
+        batch_idx: int,
     ) -> None:
-        x, y, _ = batch
+        x, y, mask, _ = batch
         logits = self(x)
-        loss = self.loss_fn(logits, y)
+        loss = self.loss_fn(logits, y, mask)
 
-        self.test_f1_macro(logits, y.long())
-        self.test_f1_per_class(logits, y.long())
-        self.test_precision_per_class(logits, y.long())
-        self.test_recall_per_class(logits, y.long())
+        self.test_f1_macro(logits, y, mask)
+        self.test_f1_per_class(logits, y, mask)
+        self.test_precision_per_class(logits, y, mask)
+        self.test_recall_per_class(logits, y, mask)
 
         self.log("test_loss", loss, on_epoch=True, batch_size=x.shape[0])
         self.log(
@@ -124,10 +140,12 @@ class MultiLabelClassifyModel(pl.LightningModule):
         f1_vals = self.test_f1_per_class.compute().cpu().numpy()
         prec_vals = self.test_precision_per_class.compute().cpu().numpy()
         rec_vals = self.test_recall_per_class.compute().cpu().numpy()
+        macro_f1 = self.test_f1_macro.compute().item()
 
         self.test_f1_per_class.reset()
         self.test_precision_per_class.reset()
         self.test_recall_per_class.reset()
+        self.test_f1_macro.reset()
 
         classes = (
             self.class_names
@@ -141,7 +159,7 @@ class MultiLabelClassifyModel(pl.LightningModule):
             print(
                 f"{cls:15s}: F1={f1_vals[i]:.3f}, Precision={prec_vals[i]:.3f}, Recall={rec_vals[i]:.3f}"
             )
-        print(f"Macro F1: {self.test_f1_macro.compute().item():.3f}")
+        print(f"Macro F1: {macro_f1:.3f}")
 
         # Plot bar chart of per-class metrics
         plt.figure(figsize=(14, 8))
